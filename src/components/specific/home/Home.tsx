@@ -1,12 +1,9 @@
-import Link from 'next/link'
 import React from 'react'
+import WeatherActuallyComponent from '../weatherActuallyComponents/WeatherComponent'
 
 const Home = () => {
   return (
-    <div>
-        <h1>Bienvenido a la app del Clima</h1>
-        <Link href="/weatherActually">Ver Clima</Link>
-    </div>
+    <WeatherActuallyComponent/>
   )
 }
 
