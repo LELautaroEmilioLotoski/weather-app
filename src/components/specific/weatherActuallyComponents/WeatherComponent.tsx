@@ -68,6 +68,7 @@ const WeatherActuallyComponent = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-4 flex flex-col items-center">
+        <h1 className="text-3xl text-white p-10">Pronostico del Tiempo 🌤️</h1>
       <Card className="w-full max-w-4xl bg-white/20 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden mb-8">
         <CardContent className="p-6">
           <div className="flex items-center mb-6">
