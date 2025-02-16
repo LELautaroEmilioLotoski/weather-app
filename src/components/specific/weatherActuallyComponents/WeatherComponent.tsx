@@ -1,11 +1,11 @@
-"use client"
-import { weatherDataFetch } from "@/helpers/actuallyWeather"
-import type { IData } from "@/interfaces/interface"
-import React, { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+"use client";
+import { weatherDataFetch } from "@/helpers/actuallyWeather";
+import type { IData } from "@/interfaces/interface";
+import React, { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Sun,
   Cloud,
@@ -20,55 +20,66 @@ import {
   Sunrise,
   Sunset,
   Moon,
-} from "lucide-react"
+} from "lucide-react";
 
 const WeatherActuallyComponent = () => {
-  const [weatherData, setWeatherData] = useState<IData | null>(null)
-  const [city, setCity] = useState("")
-  const [selectedDay, setSelectedDay] = useState(0)
+  const [weatherData, setWeatherData] = useState<IData | null>(null);
+  const [city, setCity] = useState("");
+  const [selectedDay, setSelectedDay] = useState(0);
 
   const handleButton = async () => {
     if (!city) {
-      alert("Por favor, ingresa una ciudad.")
-      return
+      alert("Por favor, ingresa una ciudad.");
+      return;
     }
 
     try {
-      const res = await weatherDataFetch(city)
+      const res = await weatherDataFetch(city);
 
       if (res?.location?.name) {
-        setWeatherData(res)
-        setSelectedDay(0)
+        setWeatherData(res);
+        setSelectedDay(0);
       } else {
-        setWeatherData(null)
-        alert("No se pudo encontrar la ciudad. Por favor, intenta de nuevo.")
+        setWeatherData(null);
+        alert("No se pudo encontrar la ciudad. Por favor, intenta de nuevo.");
       }
     } catch (error) {
-      console.log("Error al buscar los datos del clima:", error)
-      alert("No se pudo encontrar la ciudad. Por favor, intenta de nuevo.")
+      console.log("Error al buscar los datos del clima:", error);
+      alert("No se pudo encontrar la ciudad. Por favor, intenta de nuevo.");
     }
-  }
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(event.target.value)
-  }
+    setCity(event.target.value);
+  };
 
   const getWeatherIcon = (condition: string) => {
-    if (condition.toLowerCase().includes("sun") || condition.toLowerCase().includes("clear")) return Sun
-    if (condition.toLowerCase().includes("cloud")) return Cloud
-    if (condition.toLowerCase().includes("rain")) return CloudRain
-    if (condition.toLowerCase().includes("snow")) return CloudSnow
-    return Sun // Icono por defecto
-  }
+    if (
+      condition.toLowerCase().includes("sun") ||
+      condition.toLowerCase().includes("clear")
+    )
+      return Sun;
+    if (condition.toLowerCase().includes("cloud")) return Cloud;
+    if (condition.toLowerCase().includes("rain")) return CloudRain;
+    if (condition.toLowerCase().includes("snow")) return CloudSnow;
+    return Sun; // Icono por defecto
+  };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("es-ES", { weekday: "short", month: "short", day: "numeric" })
-  }
+    const date = new Date(dateString);
+    return date.toLocaleDateString("es-ES", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-4 flex flex-col items-center">
-        <h1 className="text-3xl text-white p-10">Pronostico del Tiempo 🌤️</h1>
+      <h1 className="text-3xl text-white p-10 sm:text-4xl md:text-5xl lg:text-6xl xl:text-4xl">
+        Pronóstico del Tiempo 🌤️
+      </h1>
+
       <Card className="w-full max-w-4xl bg-white/20 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden mb-8">
         <CardContent className="p-6">
           <div className="flex items-center mb-6">
@@ -80,7 +91,12 @@ const WeatherActuallyComponent = () => {
               onChange={handleChange}
               className="flex-grow bg-white/10 border-none text-white placeholder-white"
             />
-            <Button onClick={handleButton} size="icon" variant="ghost" className="ml-2 text-white hover:bg-white/10">
+            <Button
+              onClick={handleButton}
+              size="icon"
+              variant="ghost"
+              className="ml-2 text-white hover:bg-white/10"
+            >
               <Search className="h-4 w-4" />
             </Button>
           </div>
@@ -88,12 +104,18 @@ const WeatherActuallyComponent = () => {
           {!weatherData ? (
             <div className="text-center text-white">
               <h1 className="text-2xl font-bold mb-4">Inserta una ciudad</h1>
-              <p>Ingresa el nombre de una ciudad para ver su información climática.</p>
+              <p>
+                Ingresa el nombre de una ciudad para ver su información
+                climática.
+              </p>
             </div>
           ) : weatherData.location.name == undefined ? (
             <div className="text-center text-white">
               <h1 className="text-2xl font-bold mb-4">Ciudad no encontrada</h1>
-              <p>No se pudo encontrar la ciudad buscada. Por favor, intenta con otro nombre.</p>
+              <p>
+                No se pudo encontrar la ciudad buscada. Por favor, intenta con
+                otro nombre.
+              </p>
             </div>
           ) : (
             <>
@@ -101,14 +123,23 @@ const WeatherActuallyComponent = () => {
                 <h2 className="text-3xl font-bold text-white mb-2">
                   {weatherData.location.name}, {weatherData.location.country}
                 </h2>
-                <p className="text-white/80">{weatherData.location.localtime}</p>
+                <p className="text-white/80">
+                  {weatherData.location.localtime}
+                </p>
                 <div className="flex justify-center items-center mt-4">
-                  {React.createElement(getWeatherIcon(weatherData.current.condition.text), {
-                    className: "h-24 w-24 text-yellow-300 mr-4",
-                  })}
+                  {React.createElement(
+                    getWeatherIcon(weatherData.current.condition.text),
+                    {
+                      className: "h-24 w-24 text-yellow-300 mr-4",
+                    }
+                  )}
                   <div>
-                    <p className="text-6xl font-bold text-white">{weatherData.current.temp_c}°C</p>
-                    <p className="text-xl text-white/80">{weatherData.current.condition.text}</p>
+                    <p className="text-6xl font-bold text-white">
+                      {weatherData.current.temp_c}°C
+                    </p>
+                    <p className="text-xl text-white/80">
+                      {weatherData.current.condition.text}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -118,28 +149,36 @@ const WeatherActuallyComponent = () => {
                   <Thermometer className="h-6 w-6 text-red-300 mr-2" />
                   <div>
                     <p className="text-sm text-white/80">Sensación</p>
-                    <p className="text-lg font-semibold text-white">{weatherData.current.feelslike_c}°C</p>
+                    <p className="text-lg font-semibold text-white">
+                      {weatherData.current.feelslike_c}°C
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center bg-white/20 rounded-xl p-3">
                   <Wind className="h-6 w-6 text-blue-300 mr-2" />
                   <div>
                     <p className="text-sm text-white/80">Viento</p>
-                    <p className="text-lg font-semibold text-white">{weatherData.current.wind_kph} km/h</p>
+                    <p className="text-lg font-semibold text-white">
+                      {weatherData.current.wind_kph} km/h
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center bg-white/20 rounded-xl p-3">
                   <Droplets className="h-6 w-6 text-blue-300 mr-2" />
                   <div>
                     <p className="text-sm text-white/80">Humedad</p>
-                    <p className="text-lg font-semibold text-white">{weatherData.current.humidity}%</p>
+                    <p className="text-lg font-semibold text-white">
+                      {weatherData.current.humidity}%
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center bg-white/20 rounded-xl p-3">
                   <Umbrella className="h-6 w-6 text-yellow-300 mr-2" />
                   <div>
                     <p className="text-sm text-white/80">Índice UV</p>
-                    <p className="text-lg font-semibold text-white">{weatherData.current.uv}</p>
+                    <p className="text-lg font-semibold text-white">
+                      {weatherData.current.uv}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -181,62 +220,142 @@ const WeatherActuallyComponent = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card className="bg-white/20 text-white">
                       <CardContent className="p-4">
-                        <h3 className="text-lg font-semibold mb-2">Temperaturas</h3>
-                        <p>Máxima: {weatherData.forecast.forecastday[selectedDay].day.maxtemp_c}°C</p>
-                        <p>Mínima: {weatherData.forecast.forecastday[selectedDay].day.mintemp_c}°C</p>
-                        <p>Promedio: {weatherData.forecast.forecastday[selectedDay].day.avgtemp_c}°C</p>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-white/20 text-white">
-                      <CardContent className="p-4">
-                        <h3 className="text-lg font-semibold mb-2">Precipitaciones</h3>
-                        <p>Total: {weatherData.forecast.forecastday[selectedDay].day.totalprecip_mm} mm</p>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Temperaturas
+                        </h3>
                         <p>
-                          Probabilidad de lluvia:{" "}
-                          {weatherData.forecast.forecastday[selectedDay].day.daily_chance_of_rain}%
+                          Máxima:{" "}
+                          {
+                            weatherData.forecast.forecastday[selectedDay].day
+                              .maxtemp_c
+                          }
+                          °C
+                        </p>
+                        <p>
+                          Mínima:{" "}
+                          {
+                            weatherData.forecast.forecastday[selectedDay].day
+                              .mintemp_c
+                          }
+                          °C
+                        </p>
+                        <p>
+                          Promedio:{" "}
+                          {
+                            weatherData.forecast.forecastday[selectedDay].day
+                              .avgtemp_c
+                          }
+                          °C
                         </p>
                       </CardContent>
                     </Card>
                     <Card className="bg-white/20 text-white">
                       <CardContent className="p-4">
-                        <h3 className="text-lg font-semibold mb-2">Condiciones</h3>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Precipitaciones
+                        </h3>
+                        <p>
+                          Total:{" "}
+                          {
+                            weatherData.forecast.forecastday[selectedDay].day
+                              .totalprecip_mm
+                          }{" "}
+                          mm
+                        </p>
+                        <p>
+                          Probabilidad de lluvia:{" "}
+                          {
+                            weatherData.forecast.forecastday[selectedDay].day
+                              .daily_chance_of_rain
+                          }
+                          %
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-white/20 text-white">
+                      <CardContent className="p-4">
+                        <h3 className="text-lg font-semibold mb-2">
+                          Condiciones
+                        </h3>
                         <div className="flex items-center">
                           <img
-                            src={weatherData.forecast.forecastday[selectedDay].day.condition.icon || "/placeholder.svg"}
+                            src={
+                              weatherData.forecast.forecastday[selectedDay].day
+                                .condition.icon || "/placeholder.svg"
+                            }
                             alt="Weather icon"
                             className="w-12 h-12 mr-2"
                           />
-                          <p>{weatherData.forecast.forecastday[selectedDay].day.condition.text}</p>
+                          <p>
+                            {
+                              weatherData.forecast.forecastday[selectedDay].day
+                                .condition.text
+                            }
+                          </p>
                         </div>
                       </CardContent>
                     </Card>
                     <Card className="bg-white/20 text-white">
                       <CardContent className="p-4">
-                        <h3 className="text-lg font-semibold mb-2">Viento y Humedad</h3>
-                        <p>Viento máximo: {weatherData.forecast.forecastday[selectedDay].day.maxwind_kph} km/h</p>
-                        <p>Humedad promedio: {weatherData.forecast.forecastday[selectedDay].day.avghumidity}%</p>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Viento y Humedad
+                        </h3>
+                        <p>
+                          Viento máximo:{" "}
+                          {
+                            weatherData.forecast.forecastday[selectedDay].day
+                              .maxwind_kph
+                          }{" "}
+                          km/h
+                        </p>
+                        <p>
+                          Humedad promedio:{" "}
+                          {
+                            weatherData.forecast.forecastday[selectedDay].day
+                              .avghumidity
+                          }
+                          %
+                        </p>
                       </CardContent>
                     </Card>
                     <Card className="bg-white/20 text-white md:col-span-2">
                       <CardContent className="p-4">
-                        <h3 className="text-lg font-semibold mb-2">Sol y Luna</h3>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Sol y Luna
+                        </h3>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <p>
                               <Sunrise className="inline mr-2" /> Amanecer:{" "}
-                              {weatherData.forecast.forecastday[selectedDay].astro.sunrise}
+                              {
+                                weatherData.forecast.forecastday[selectedDay]
+                                  .astro.sunrise
+                              }
                             </p>
                             <p>
                               <Sunset className="inline mr-2" /> Atardecer:{" "}
-                              {weatherData.forecast.forecastday[selectedDay].astro.sunset}
+                              {
+                                weatherData.forecast.forecastday[selectedDay]
+                                  .astro.sunset
+                              }
                             </p>
                           </div>
                           <div>
                             <p>
-                              <Moon className="inline mr-2" /> Salida de la luna:{" "}
-                              {weatherData.forecast.forecastday[selectedDay].astro.moonrise}
+                              <Moon className="inline mr-2" /> Salida de la
+                              luna:{" "}
+                              {
+                                weatherData.forecast.forecastday[selectedDay]
+                                  .astro.moonrise
+                              }
                             </p>
-                            <p>Fase lunar: {weatherData.forecast.forecastday[selectedDay].astro.moon_phase}</p>
+                            <p>
+                              Fase lunar:{" "}
+                              {
+                                weatherData.forecast.forecastday[selectedDay]
+                                  .astro.moon_phase
+                              }
+                            </p>
                           </div>
                         </div>
                       </CardContent>
@@ -259,28 +378,38 @@ const WeatherActuallyComponent = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {weatherData.forecast.forecastday[selectedDay].hour.map((hour) => (
-                        <tr key={hour.time} className="border-b border-white/20">
-                          <td className="p-2">
-                            {new Date(hour.time).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}
-                          </td>
-                          <td className="p-2">{hour.temp_c}°C</td>
-                          <td className="p-2">{hour.feelslike_c}°C</td>
-                          <td className="p-2">
-                            <div className="flex items-center">
-                              <img
-                                src={hour.condition.icon || "/placeholder.svg"}
-                                alt="Weather icon"
-                                className="w-8 h-8 mr-2"
-                              />
-                              {hour.condition.text}
-                            </div>
-                          </td>
-                          <td className="p-2">{hour.wind_kph} km/h</td>
-                          <td className="p-2">{hour.humidity}%</td>
-                          <td className="p-2">{hour.chance_of_rain}%</td>
-                        </tr>
-                      ))}
+                      {weatherData.forecast.forecastday[selectedDay].hour.map(
+                        (hour) => (
+                          <tr
+                            key={hour.time}
+                            className="border-b border-white/20"
+                          >
+                            <td className="p-2">
+                              {new Date(hour.time).toLocaleTimeString("es-ES", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </td>
+                            <td className="p-2">{hour.temp_c}°C</td>
+                            <td className="p-2">{hour.feelslike_c}°C</td>
+                            <td className="p-2">
+                              <div className="flex items-center">
+                                <img
+                                  src={
+                                    hour.condition.icon || "/placeholder.svg"
+                                  }
+                                  alt="Weather icon"
+                                  className="w-8 h-8 mr-2"
+                                />
+                                {hour.condition.text}
+                              </div>
+                            </td>
+                            <td className="p-2">{hour.wind_kph} km/h</td>
+                            <td className="p-2">{hour.humidity}%</td>
+                            <td className="p-2">{hour.chance_of_rain}%</td>
+                          </tr>
+                        )
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -290,8 +419,7 @@ const WeatherActuallyComponent = () => {
         </Card>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default WeatherActuallyComponent
-
+export default WeatherActuallyComponent;
